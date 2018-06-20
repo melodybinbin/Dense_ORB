@@ -1,0 +1,2 @@
+Options: 
+CMake: 3.8.2@/home/studentq/Templates/clion/bin/cmake/bin/cmake

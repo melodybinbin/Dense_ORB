@@ -39,7 +39,6 @@ LIST(APPEND CMAKE_MODULE_PATH ${g2o_SOURCE_DIR}/cmake_modules)
 # Detect OS and define macros appropriately
 IF(UNIX)
   ADD_DEFINITIONS(-DUNIX)
-  REMOVE_DEFINITIONS(-D_MSC_VER)
   MESSAGE(STATUS "Compiling on Unix")
 ENDIF(UNIX)
 

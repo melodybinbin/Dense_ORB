@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8)
 project(ORB_SLAM2)
 
 IF(NOT CMAKE_BUILD_TYPE)
-  SET(CMAKE_BUILD_TYPE Release)
+	SET(CMAKE_BUILD_TYPE DEBUG)
 ENDIF()
 
 MESSAGE("Build type: " ${CMAKE_BUILD_TYPE})
@@ -28,9 +28,18 @@ endif()
 
 LIST(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake_modules)
 
-find_package(OpenCV 3.0 QUIET)
+set(OpenCV_DIR /usr/local/opencv3.2.0/share/OpenCV)
+find_package(OpenCV 3.2 REQUIRED)
+include_directories(SYSTEM ${OpenCV_INCLUDE_DIRS})
+#include_directories(SYSTEM ${OpenCV_INCLUDE_DIRS} /usr/local/opencv3.2.0/include)
+link_directories(${OpenCV_LIBRARY_DIRS})
+#link_directories(${OpenCV_LIBRARY_DIRS} /usr/local/opencv3.2.0/lib)
+
 if(NOT OpenCV_FOUND)
-   find_package(OpenCV 2.4.3 QUIET)
+	set(OpenCV_DIR /usr/local/opencv2.4.0/share/OpenCV)
+	find_package(OpenCV 2.4 REQUIRED)
+	include_directories(SYSTEM ${OpenCV_INCLUDE_DIRS} /usr/local/opencv2.4.13/include)
+	link_directories(${OpenCV_LIBRARY_DIRS} /usr/local/opencv2.4.13/lib)
    if(NOT OpenCV_FOUND)
       message(FATAL_ERROR "OpenCV > 2.4.3 not found.")
    endif()
@@ -74,8 +83,8 @@ target_link_libraries(${PROJECT_NAME}
 ${OpenCV_LIBS}
 ${EIGEN3_LIBS}
 ${Pangolin_LIBRARIES}
-${PROJECT_SOURCE_DIR}/Thirdparty/DBoW2/lib/libDBoW2.dylib
-${PROJECT_SOURCE_DIR}/Thirdparty/g2o/lib/libg2o.dylib
+${PROJECT_SOURCE_DIR}/Thirdparty/DBoW2/lib/libDBoW2.so
+${PROJECT_SOURCE_DIR}/Thirdparty/g2o/lib/libg2o.so
 )
 
 # Build examples

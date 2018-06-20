@@ -22,7 +22,6 @@
 #include <pangolin/pangolin.h>
 
 #include <mutex>
-#include <unistd.h>
 
 namespace ORB_SLAM2
 {
@@ -68,12 +67,12 @@ void Viewer::Run()
 
     pangolin::CreatePanel("menu").SetBounds(0.0,1.0,0.0,pangolin::Attach::Pix(175));
     pangolin::Var<bool> menuFollowCamera("menu.Follow Camera",true,true);
-    pangolin::Var<bool> menuShowPoints("menu.Show Points",true,true);
+    pangolin::Var<bool> menuShowPoints("menu.Show Points",false, true);
+    pangolin::Var<bool> menuShowDenseMap("menu.Show Dense Map", false, true);
     pangolin::Var<bool> menuShowKeyFrames("menu.Show KeyFrames",true,true);
     pangolin::Var<bool> menuShowGraph("menu.Show Graph",true,true);
     pangolin::Var<bool> menuLocalizationMode("menu.Localization Mode",false,true);
     pangolin::Var<bool> menuReset("menu.Reset",false,false);
-    pangolin::Var<bool> menuFinish("menu.Finish",false,false);
 
     // Define Camera Render Object (for view / scene browsing)
     pangolin::OpenGlRenderState s_cam(
@@ -133,13 +132,17 @@ void Viewer::Run()
             mpMapDrawer->DrawKeyFrames(menuShowKeyFrames,menuShowGraph);
         if(menuShowPoints)
             mpMapDrawer->DrawMapPoints();
+        
+        if(menuShowDenseMap){
+          menuShowPoints = false;
+          glClearColor(0.2f, 0.4f, 0.6f, 1.0f);
+        }
+
 
         pangolin::FinishFrame();
 
         cv::Mat im = mpFrameDrawer->DrawFrame();
-        cv::Mat im_half;
-        cv::resize(im, im_half, cv::Size(), 0.5, 0.5);
-        cv::imshow("ORB-SLAM2: Current Frame",im_half);
+        cv::imshow("ORB-SLAM2: Current Frame",im);
         cv::waitKey(mT);
 
         if(menuReset)
@@ -147,6 +150,7 @@ void Viewer::Run()
             menuShowGraph = true;
             menuShowKeyFrames = true;
             menuShowPoints = true;
+            menuShowDenseMap = false;
             menuLocalizationMode = false;
             if(bLocalizationMode)
                 mpSystem->DeactivateLocalizationMode();
@@ -155,11 +159,6 @@ void Viewer::Run()
             menuFollowCamera = true;
             mpSystem->Reset();
             menuReset = false;
-        }
-
-        if (menuFinish)
-        {
-            RequestFinish();
         }
 
         if(Stop())

@@ -23,7 +23,6 @@
 #include<algorithm>
 #include<fstream>
 #include<chrono>
-#include<unistd.h>
 
 #include<opencv2/core/core.hpp>
 
@@ -62,8 +61,6 @@ int main(int argc, char **argv)
     cout << "Images in the sequence: " << nImages << endl << endl;
 
     // Main loop
-    int main_error = 0;
-    std::thread runthread([&]() {  // Start in new thread
     cv::Mat im;
     for(int ni=0; ni<nImages; ni++)
     {
@@ -75,8 +72,7 @@ int main(int argc, char **argv)
         {
             cerr << endl << "Failed to load image at: "
                  << string(argv[3]) << "/" << vstrImageFilenames[ni] << endl;
-            main_error = 1;
-            return;
+            return 1;
         }
 
 #ifdef COMPILEDWITHC11
@@ -108,21 +104,9 @@ int main(int argc, char **argv)
         if(ttrack<T)
             usleep((T-ttrack)*1e6);
     }
-    // SLAM.Shutdown();
-    }); // End the thread
-
-    // Start the visualization thread
-    SLAM.StartViewer();
-
-    cout << "Viewer started, waiting for thread." << endl;
-    runthread.join();
-    if (main_error != 0)
-        return main_error;
-    cout << "Tracking thread joined..." << endl;
 
     // Stop all threads
     SLAM.Shutdown();
-    cout << "System Shutdown" << endl;
 
     // Tracking time statistics
     sort(vTimesTrack.begin(),vTimesTrack.end());
@@ -136,8 +120,7 @@ int main(int argc, char **argv)
     cout << "mean tracking time: " << totaltime/nImages << endl;
 
     // Save camera trajectory
-    // SLAM.SaveTrajectoryTUM(strFile + "/FrameTrajectory.txt");
-    SLAM.SaveKeyFrameTrajectoryTUM(string(argv[3]) + "/KeyFrameTrajectory.txt");
+    SLAM.SaveKeyFrameTrajectoryTUM("KeyFrameTrajectory.txt");
 
     return 0;
 }
