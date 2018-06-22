@@ -80,6 +80,11 @@ void MapDrawer::DrawMapPoints()
     glEnd();
 }
 
+void MapDrawer::DrawDenseCloud(){
+
+
+}
+
 void MapDrawer::DrawKeyFrames(const bool bDrawKF, const bool bDrawGraph)
 {
     const float &w = mKeyFrameSize;
