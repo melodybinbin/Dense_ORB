@@ -1,5 +1,4 @@
 #include "DenseCloud.h"
-#include "Converter.h"
 
 namespace ORB_SLAM2{
 
@@ -17,7 +16,6 @@ namespace ORB_SLAM2{
       glBindBuffer(GL_ARRAY_BUFFER, 0);
     }
 
-
   DenseCloud::DenseCloud(pcl::PointCloud<pcl::PointXYZRGBNormal> *cloud)
     : numPoints(cloud->size()), offset(8), stride(sizeof(pcl::PointXYZRGBNormal)){
       glGenBuffers(1, &vbo);
@@ -26,36 +24,6 @@ namespace ORB_SLAM2{
       glBindBuffer(GL_ARRAY_BUFFER, 0);
     }
 
-
-  pcl::PointCloud<DenseCloud::PointT>::Ptr DenseCloud::generatePointCloud(KeyFrame *kf, cv::Mat &color, cv::Mat &depth){
-    
-    PointCloud::Ptr tmp(new PointCloud());
-    // point cloud is null ptr
-    for(int m = 0; m < depth.rows; m+=3){
-      for( int n = 0; n < depth.cols; n+=3){
-        float d = depth.ptr<float>(m)[n];
-        if(d < 0.01 || d > 10)
-          continue;
-        PointT p;
-        p.z = d;
-        p.x = (n - kf->cx) * p.z / kf->fx;
-        p.y = (m - kf->cy) * p.z / kf->fy;
-        
-        p.b = color.ptr<uchar>(m)[n*3];
-        p.g = color.ptr<uchar>(m)[n*3+1];
-        p.r = color.ptr<uchar>(m)[n*3+2];
-
-        tmp->points.push_back(p);
-      }
-    }
-
-    Eigen::Isometry3d T = ORB_SLAM2::Converter::toSE3Quat( kf->GetPose() );
-    PointCloud::Ptr cloud(new PointCloud);
-    pcl::transformPointCloud(*tmp, *cloud, T.inverse().matrix());
-    cloud->is_dense = false;
-    std::cout << "Generate point cloud for kf " << kf->mnId << ", size=" << cloud->points.size() << endl;
-    return cloud;
-  }
 
   void DenseCloud::drawPoints(){
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
@@ -68,7 +36,7 @@ namespace ORB_SLAM2{
     glDrawArrays(GL_POINTS, 0, numPoints);
 
     glDisableClientState(GL_COLOR_ARRAY);
-    glDisableClientState(GL_VERTEX_ARRAY);
+    glDIsableClientState(GL_VERTEX_ARRAY);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
   }
