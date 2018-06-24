@@ -14,11 +14,13 @@
 #ifdef HAVE_OPENNI2
 #undef HAVE_OPENNI2
 #endif
+
 #include "System.h"
+#include "KeyFrame.h"
 #include <pangolin/pangolin.h>
 #include <pangolin/gl/gl.h>
 #include <pangolin/gl/gldraw.h>
-
+#include <mutex>
 
 namespace ORB_SLAM2{
 
@@ -38,12 +40,12 @@ class DenseCloud{
   private:
 
     // data to generate the point clouds
-    vector<KeyFrame*>       keyFrames;
-    vector<cv::Mat>         colorImgs;
-    vector<cv::Mat>         depthImgs;
+    std::vector<KeyFrame*>       keyFrames;
+    std::vector<cv::Mat>         colorImgs;
+    std::vector<cv::Mat>         depthImgs;
 
     // 多线程用来控制获得相应的data
-    mutex                   keyFrameMutex;
+    std::mutex              keyFrameMutex;
     uint16_t                lastKeyFrameSize = 0;
 
     double resolution = 0.04;
@@ -55,5 +57,4 @@ class DenseCloud{
     GLuint vbo;
   };
 }
-
 #endif

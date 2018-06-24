@@ -41,6 +41,7 @@ public:
     Map();
 
     void AddKeyFrame(KeyFrame* pKF);
+    void AddDenseCloud(KeyFrame *pKF, cv::Mat &colorImg, cv::Mat &depthImg);
     void AddMapPoint(MapPoint* pMP);
     void EraseMapPoint(MapPoint* pMP);
     void EraseKeyFrame(KeyFrame* pKF);

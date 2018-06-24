@@ -99,6 +99,11 @@ public:
     cv::Mat UnprojectStereo(const int &i);
 
 public:
+
+    // the color and depth information used for the point cloud mapping
+    cv::Mat colorImg;
+    cv::Mat depthImg;
+
     // Vocabulary used for relocalization.
     ORBVocabulary* mpORBvocabulary;
 

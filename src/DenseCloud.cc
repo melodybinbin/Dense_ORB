@@ -28,7 +28,6 @@ namespace ORB_SLAM2{
 
 
   pcl::PointCloud<DenseCloud::PointT>::Ptr DenseCloud::generatePointCloud(KeyFrame *kf, cv::Mat &color, cv::Mat &depth){
-    
     PointCloud::Ptr tmp(new PointCloud());
     // point cloud is null ptr
     for(int m = 0; m < depth.rows; m+=3){
@@ -41,9 +40,9 @@ namespace ORB_SLAM2{
         p.x = (n - kf->cx) * p.z / kf->fx;
         p.y = (m - kf->cy) * p.z / kf->fy;
         
-        p.b = color.ptr<uchar>(m)[n*3];
-        p.g = color.ptr<uchar>(m)[n*3+1];
-        p.r = color.ptr<uchar>(m)[n*3+2];
+        p.b = kf->colorImg.ptr<uchar>(m)[n*3];
+        p.g = kf->colorImg.ptr<uchar>(m)[n*3+1];
+        p.r = kf->colorImg.ptr<uchar>(m)[n*3+2];
 
         tmp->points.push_back(p);
       }
@@ -72,4 +71,4 @@ namespace ORB_SLAM2{
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
   }
-}
+} // End of the namespace of ORB_SLAM2

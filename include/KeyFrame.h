@@ -187,11 +187,14 @@ public:
     const int mnMaxX;
     const int mnMaxY;
     const cv::Mat mK;
+    
+    // color and depth information built for the point cloud mapping
+    const cv::Mat colorImg;
+    const cv::Mat depthImg;
 
 
     // The following variables need to be accessed trough a mutex to be thread safe.
 protected:
-
     // SE3 Pose and camera center
     cv::Mat Tcw;
     cv::Mat Twc;

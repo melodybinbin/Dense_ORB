@@ -27,6 +27,7 @@
 
 #include"Viewer.h"
 #include"FrameDrawer.h"
+#include "DenseCloud.h"
 #include"Map.h"
 #include"LocalMapping.h"
 #include"LoopClosing.h"
@@ -45,6 +46,7 @@ namespace ORB_SLAM2
 
 class Viewer;
 class FrameDrawer;
+class DenseCloud;
 class Map;
 class LocalMapping;
 class LoopClosing;

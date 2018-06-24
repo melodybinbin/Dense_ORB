@@ -21,6 +21,7 @@
 #include "MapDrawer.h"
 #include "MapPoint.h"
 #include "KeyFrame.h"
+#include "DenseCloud.h"
 #include <pangolin/pangolin.h>
 #include <mutex>
 
@@ -81,7 +82,8 @@ void MapDrawer::DrawMapPoints()
 }
 
 void MapDrawer::DrawDenseCloud(){
-
+  const vector<KeyFrame*> vpKFs = mpMap->GetAllKeyFrames();
+  cv::imshow("The Key Frame", vpKFs[0]->colorImg);
 
 }
 
