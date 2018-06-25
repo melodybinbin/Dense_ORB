@@ -28,8 +28,8 @@ endif()
 
 LIST(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake_modules)
 
-set(OpenCV_DIR /usr/local/opencv3.2.0/share/OpenCV)
-find_package(OpenCV 3.2 REQUIRED)
+set(OpenCV_DIR /usr/local/opencv2.4.13/share/OpenCV)
+find_package(OpenCV 2.4 REQUIRED)
 include_directories(SYSTEM ${OpenCV_INCLUDE_DIRS})
 #include_directories(SYSTEM ${OpenCV_INCLUDE_DIRS} /usr/local/opencv3.2.0/include)
 link_directories(${OpenCV_LIBRARY_DIRS})

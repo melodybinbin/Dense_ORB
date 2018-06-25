@@ -83,8 +83,9 @@ void MapDrawer::DrawMapPoints()
 
 void MapDrawer::DrawDenseCloud(){
   const vector<KeyFrame*> vpKFs = mpMap->GetAllKeyFrames();
-  cv::imshow("The Key Frame", vpKFs[0]->colorImg);
-
+  for(size_t i = 0; i < vpKFs.size(); i++){
+      cv::imshow("The Key Frame for the point cloud mapping", vpKFs[i]->colorImg);
+  }
 }
 
 void MapDrawer::DrawKeyFrames(const bool bDrawKF, const bool bDrawGraph)
