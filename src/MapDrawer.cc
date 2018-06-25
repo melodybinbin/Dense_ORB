@@ -92,7 +92,7 @@ void MapDrawer::DrawDenseCloud(){
   cv::imshow("The key frame for the pointcloud mapping", vpKFs[0]->colorImg);
   DenseCloud::PointCloud::Ptr tmp = DenseCloud::generatePointCloud(vpKFs[0]);
   // viewer.showCloud(tmp);
-  //
+  std::cout << "The type of the point cloud is " << typeid(tmp.get()).name() << std::endl;
 }
 
 void MapDrawer::DrawKeyFrames(const bool bDrawKF, const bool bDrawGraph)
