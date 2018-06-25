@@ -26,7 +26,7 @@ namespace ORB_SLAM2{
 
 class DenseCloud{
   public:
-    typedef pcl::PointXYZRGBA PointT;
+    typedef pcl::PointXYZRGB PointT;
     typedef pcl::PointCloud<PointT> PointCloud;
     
     DenseCloud(pcl::PointCloud<pcl::PointXYZRGB> *cloud); 

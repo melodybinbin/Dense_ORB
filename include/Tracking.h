@@ -97,6 +97,8 @@ public:
     // Current Frame
     Frame mCurrentFrame;
     cv::Mat mImGray;
+    // Create the color image used for the point cloud mapping
+    cv::Mat mImColor;
     // Create the depth image used for the point cloud mapping
     cv::Mat mImDepth;
 

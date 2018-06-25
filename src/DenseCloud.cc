@@ -54,12 +54,14 @@ namespace ORB_SLAM2{
       }
     }
 
-    Eigen::Isometry3d T = ORB_SLAM2::Converter::toSE3Quat( kf->GetPose() );
-    PointCloud::Ptr cloud(new PointCloud);
-    pcl::transformPointCloud(*tmp, *cloud, T.inverse().matrix());
-    cloud->is_dense = false;
-    std::cout << "Generate point cloud for kf " << kf->mnId << ", size=" << cloud->points.size() << endl;
-    return cloud;
+    // Eigen::Isometry3d T = ORB_SLAM2::Converter::toSE3Quat( kf->GetPose() );
+    // PointCloud::Ptr cloud(new PointCloud);
+    // pcl::transformPointCloud(*tmp, *cloud, T.inverse().matrix());
+    // cloud->is_dense = false;
+    // std::cout << "Generate point cloud for kf " << kf->mnId << ", size=" << cloud->points.size() << endl;
+    tmp->width = (int)kf->depthImg.cols;
+    tmp->width = (int)kf->depthImg.rows;
+    return tmp;
   }
 
   void DenseCloud::drawPoints(){
