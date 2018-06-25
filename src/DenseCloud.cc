@@ -27,12 +27,12 @@ namespace ORB_SLAM2{
     }
 
 
-  pcl::PointCloud<DenseCloud::PointT>::Ptr DenseCloud::generatePointCloud(KeyFrame *kf, cv::Mat &color, cv::Mat &depth){
+  pcl::PointCloud<DenseCloud::PointT>::Ptr DenseCloud::generatePointCloud(KeyFrame *kf){
     PointCloud::Ptr tmp(new PointCloud());
     // point cloud is null ptr
-    for(int m = 0; m < depth.rows; m+=3){
-      for( int n = 0; n < depth.cols; n+=3){
-        float d = depth.ptr<float>(m)[n];
+    for(int m = 0; m < kf->depthImg.rows; m+=3){
+      for( int n = 0; n < kf->depthImg.cols; n+=3){
+        float d = kf->depthImg.ptr<float>(m)[n];
         if(d < 0.01 || d > 10)
           continue;
         PointT p;

@@ -36,7 +36,7 @@ class DenseCloud{
 
     void drawPoints();
 
-    PointCloud::Ptr generatePointCloud(KeyFrame *kf, cv::Mat &color, cv::Mat &depth);
+    static PointCloud::Ptr generatePointCloud(KeyFrame *kf);
   private:
 
     // data to generate the point clouds

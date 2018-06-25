@@ -22,6 +22,8 @@
 #include "MapPoint.h"
 #include "KeyFrame.h"
 #include "DenseCloud.h"
+#include <pcl/visualization/cloud_viewer.h>
+#include <pcl/common/projection_matrix.h>
 #include <pangolin/pangolin.h>
 #include <mutex>
 
@@ -83,8 +85,13 @@ void MapDrawer::DrawMapPoints()
 
 void MapDrawer::DrawDenseCloud(){
   const vector<KeyFrame*> vpKFs = mpMap->GetAllKeyFrames();
-  for(size_t i = 0; i < vpKFs.size(); i++){
+  /*for(size_t i = 0; i < vpKFs.size(); i++){
       cv::imshow("The Key Frame for the point cloud mapping", vpKFs[i]->colorImg);
+  }*/
+  pcl::visualization::CloudViewer viewer("viewer");
+  while(1){
+  DenseCloud::PointCloud::Ptr tmp = DenseCloud::generatePointCloud(vpKFs[0]);
+  viewer.showCloud(tmp);
   }
 }
 
